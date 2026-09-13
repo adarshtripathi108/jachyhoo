@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Jachyhoo — Premium streetwear hoodies for the bold." />
+    <title>Jachyhoo | Premium Hoodies</title>
+
+    <!-- Google Fonts: Inter for clean, modern type -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet" />
+
+    <!-- Main stylesheet -->
+    <link rel="stylesheet" href="src/styles.css" />
+  </head>
+  <body>
+    <!-- React root mount point -->
+    <div id="root"></div>
+
+    <!-- React 18 via CDN (development build for readable errors; swap to .production.min for deploy) -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+    <!-- Babel standalone for in-browser JSX transform (dev only) -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Cart state & logic (plain JS, loaded before React components) -->
+    <script src="src/cart.js"></script>
+
+    <!-- Component files (order matters: sub-components before App) -->
+    <script type="text/babel" src="src/components/Navbar.jsx"></script>
+    <script type="text/babel" src="src/components/Hero.jsx"></script>
+    <script type="text/babel" src="src/components/ProductGrid.jsx"></script>
+    <script type="text/babel" src="src/components/About.jsx"></script>
+    <script type="text/babel" src="src/components/Footer.jsx"></script>
+
+    <!-- Root App component — mounts last -->
+    <script type="text/babel" src="src/App.jsx"></script>
+  </body>
+</html>
