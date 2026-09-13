@@ -2,11 +2,12 @@
  * Navbar.jsx — Top navigation bar
  * Displays the Jachyhoo logo, nav links, cart button with live count,
  * and a hamburger menu for mobile.
+ * The cart button calls onCartOpen prop to open the cart drawer.
  */
 
 const { useState, useEffect } = React;
 
-function Navbar() {
+function Navbar({ onCartOpen }) {
   /* Live cart count synced to the global cart store */
   const [cartCount, setCartCount] = useState(0);
   /* Mobile menu open/close toggle */
@@ -37,8 +38,12 @@ function Navbar() {
             <li><a href="#contact">Contact</a></li>
           </ul>
 
-          {/* Desktop cart button */}
-          <button className="navbar__cart" aria-label={`Cart, ${cartCount} items`}>
+          {/* Desktop cart button — opens drawer */}
+          <button
+            className="navbar__cart"
+            aria-label={`Cart, ${cartCount} items`}
+            onClick={onCartOpen}
+          >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
               <circle cx="9" cy="21" r="1"/>
               <circle cx="20" cy="21" r="1"/>
@@ -69,7 +74,10 @@ function Navbar() {
         <a href="#shop"  onClick={() => setMenuOpen(false)}>Shop</a>
         <a href="#about" onClick={() => setMenuOpen(false)}>About</a>
         <a href="#contact" onClick={() => setMenuOpen(false)}>Contact</a>
-        <button style={{ color: 'var(--muted)', textAlign: 'left', letterSpacing: '0.1em', fontSize: '0.8rem', fontWeight: 600, textTransform: 'uppercase', padding: '16px 24px', borderBottom: '1px solid var(--border)' }}>
+        <button
+          onClick={() => { setMenuOpen(false); onCartOpen(); }}
+          style={{ color: 'var(--muted)', textAlign: 'left', letterSpacing: '0.1em', fontSize: '0.8rem', fontWeight: 600, textTransform: 'uppercase', padding: '16px 24px', borderBottom: '1px solid var(--border)', width: '100%' }}
+        >
           Cart {cartCount > 0 && `(${cartCount})`}
         </button>
       </div>

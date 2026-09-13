@@ -1,46 +1,46 @@
 /**
  * ProductGrid.jsx — Product showcase section
  * Renders a responsive grid of hoodie product cards.
- * Each card has image, name, color, price, and "Add to Cart" button.
+ * Each card has image, name, color, price (INR), and "Add to Cart" button.
  * Cart interactions are handled via the global JachyhooCart store.
  */
 
 const { useState } = React;
 
-/** ── Product catalogue data ── */
+/** ── Product catalogue data (prices in INR) ── */
 const PRODUCTS = [
   {
     id: 1,
     name: "Obsidian Oversized Hoodie",
     color: "Jet Black",
-    price: 89,
-    originalPrice: 110,
+    price: 2999,
+    originalPrice: 3999,
     badge: "Best Seller",
-    image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=500&auto=format&fit=crop&q=75",
+    image: "https://images.unsplash.com/photo-1556821840-3a63f15732ce?w=500&auto=format&fit=crop&q=75",
   },
   {
     id: 2,
     name: "Arctic Fleece Pullover",
     color: "Chalk White",
-    price: 79,
+    price: 2499,
     originalPrice: null,
     badge: null,
-    image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=500&auto=format&fit=crop&q=75",
+    image: "https://images.unsplash.com/photo-1509942774463-acf339cf87d5?w=500&auto=format&fit=crop&q=75",
   },
   {
     id: 3,
     name: "Ember Zip-Up Hoodie",
     color: "Burnt Orange",
-    price: 95,
-    originalPrice: 120,
+    price: 3299,
+    originalPrice: 4199,
     badge: "Sale",
-    image: "https://images.unsplash.com/photo-1614495870500-cd2ca1fce55c?w=500&auto=format&fit=crop&q=75",
+    image: "https://images.unsplash.com/photo-1604644401890-0bd678c83788?w=500&auto=format&fit=crop&q=75",
   },
   {
     id: 4,
     name: "Stone Washed Classic",
     color: "Ash Grey",
-    price: 74,
+    price: 2199,
     originalPrice: null,
     badge: "New",
     image: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=500&auto=format&fit=crop&q=75",
@@ -49,39 +49,44 @@ const PRODUCTS = [
     id: 5,
     name: "Camo Tech Hoodie",
     color: "Urban Camo",
-    price: 99,
+    price: 3599,
     originalPrice: null,
     badge: "New",
-    image: "https://images.unsplash.com/photo-1609873814058-a8928924184a?w=500&auto=format&fit=crop&q=75",
+    image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&auto=format&fit=crop&q=75",
   },
   {
     id: 6,
     name: "Midnight Crop Hoodie",
     color: "Navy Blue",
-    price: 82,
-    originalPrice: 98,
+    price: 2799,
+    originalPrice: 3499,
     badge: "Sale",
-    image: "https://images.unsplash.com/photo-1572495641004-28421ae3bf92?w=500&auto=format&fit=crop&q=75",
+    image: "https://images.unsplash.com/photo-1578681994506-b8f463449011?w=500&auto=format&fit=crop&q=75",
   },
   {
     id: 7,
     name: "Sand Dune Relaxed Fit",
     color: "Desert Sand",
-    price: 77,
+    price: 2599,
     originalPrice: null,
     badge: null,
-    image: "https://images.unsplash.com/photo-1596609548086-85bbf8dcea31?w=500&auto=format&fit=crop&q=75",
+    image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=500&auto=format&fit=crop&q=75",
   },
   {
     id: 8,
     name: "Logo Drop Heavyweight",
     color: "Forest Green",
-    price: 92,
-    originalPrice: 105,
+    price: 3199,
+    originalPrice: 3999,
     badge: "Best Seller",
-    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&auto=format&fit=crop&q=75",
+    image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=500&auto=format&fit=crop&q=75",
   },
 ];
+
+/** Format a number as Indian Rupee string e.g. ₹2,999 */
+function inr(amount) {
+  return '₹' + amount.toLocaleString('en-IN');
+}
 
 /** ── Individual product card ── */
 function ProductCard({ product, onAdd }) {
@@ -103,6 +108,11 @@ function ProductCard({ product, onAdd }) {
           src={product.image}
           alt={product.name}
           loading="lazy"
+          onError={(e) => {
+            /* Fallback to a guaranteed placeholder if Unsplash fails */
+            e.target.onerror = null;
+            e.target.src = `https://placehold.co/500x500/111111/ff3c00?text=${encodeURIComponent(product.name)}`;
+          }}
         />
         {product.badge && (
           <span className="product-card__badge">{product.badge}</span>
@@ -115,11 +125,11 @@ function ProductCard({ product, onAdd }) {
         <p className="product-card__color">{product.color}</p>
 
         <div className="product-card__footer">
-          {/* Price */}
+          {/* Price in INR */}
           <div>
-            <span className="product-card__price">${product.price}</span>
+            <span className="product-card__price">{inr(product.price)}</span>
             {product.originalPrice && (
-              <span className="product-card__price-old">${product.originalPrice}</span>
+              <span className="product-card__price-old">{inr(product.originalPrice)}</span>
             )}
           </div>
 
